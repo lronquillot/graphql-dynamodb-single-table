@@ -1,0 +1,20 @@
+#set($id = $util.autoUlid())
+
+{
+    "version" : "2018-05-29",
+    "operation" : "PutItem",
+    "key" : {
+        "PK": $util.dynamodb.toDynamoDBJson("AREA#$ctx.args.input.areaId"),
+        "SK": $util.dynamodb.toDynamoDBJson("PROJECT#${id}"),
+    },
+    "attributeValues" : {
+        "_TYPE": $util.dynamodb.toDynamoDBJson("PROJECT"),
+        "id": $util.dynamodb.toDynamoDBJson(${id}),
+        "name": $util.dynamodb.toDynamoDBJson($ctx.args.input.name),
+        "supportMail": $util.dynamodb.toDynamoDBJson($ctx.args.input.supportMail),
+        "createdAt": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrEmpty($ctx.args.input.publishDate, $util.time.nowISO8601())),
+        "createdBy": $util.dynamodb.toDynamoDBJson($ctx.args.input.createdBy),
+        "modifiedAt": $util.dynamodb.toDynamoDBJson($ctx.args.input.modifiedAt), 
+        "modifiedBy": $util.dynamodb.toDynamoDBJson($ctx.args.input.modifiedBy),
+    }
+}

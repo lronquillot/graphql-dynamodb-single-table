@@ -4,63 +4,167 @@ schema {
 }
 
 type Query {
-  getSite(domain: String!): Site
-  getPostsForSite(domain: String!, num: Int, after: String): PostConnection
+  getUsers: [User]
+  getAreas: [Area]
+  getProjects(areaId: String!): [Project]
+  getActivities(userId: String!): [Activity]
+  getConversation(activityId: String!): Conversation
 }
 
 type Mutation {
-  createSite(input: CreateSiteInput): Site
-  createPost(input: CreatePostInput): Post
-  createComment(input: CreateCommentInput): Comment
+  createUser(input: UserInput): User
+  createArea(input: AreaInput): Area 
+  createProject(input: ProjectInput): Project 
+  createActivity(input: ActivityInput): Activity 
+  createConversation(input: ConversationInput): Conversation 
 }
 
-type Site {
+input AreaInput {
+  name: String!
+  userId: String!
+  father: String
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
+}
+
+input UserInput {
+  name: String!
+  mail: String!
+  role: String! 
+  passwordUpdated: Boolean
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
+}
+
+input ProjectInput {
+  name: String!
+  supportMail: String!
+  areaId: String!
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
+}
+
+input ActivityInput {
+  threadId: String!
+  projectId: String!
+  userId: String
+  status: String! 
+  type: String 
+  color: String 
+  criticality: String
+  title: String!
+  closedInternallyAt: AWSDateTime
+  closedInternallyBy: String
+  closedClientAt: AWSDateTime
+  closedClientBy: String
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
+}
+
+input ConversationInput {
+  activityId: String!
+  text: String
+  html: String!
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
+}
+
+type User {
   id: ID!
   name: String!
-  domain: String!
-  posts: PostConnection!
+  mail: String!
+  role: String! 
+  passwordUpdated: Boolean
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
 }
 
-type PostConnection {
-  cursor: String
-  posts: [Post]
-}
-
-type Post {
+type Area {
   id: ID!
-  title: String!
-  publishDate: AWSDateTime!
-  content: String!
-  comments(num: Int, after: String): CommentConnection!
+  name: String!
+  inCharge(num: Int, after: String): UserConnection
+  father(num: Int, after: String): FatherConnection
+  projects(num: Int, after: String): ProjectConnection
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
 }
 
-type CommentConnection {
+type UserConnection {
   cursor: String
-  comments: [Comment]
+  user: User
 }
 
-type Comment {
+type FatherConnection {
+  cursor: String
+  father: Area
+}
+
+type ProjectConnection {
+  cursor: String
+  projects: [Project]
+}
+
+type Project {
   id: ID!
-  username: String!
-  content: String!
-  publishDate: AWSDateTime!
+  name: String!
+  supportMail: String!
+  activities(num: Int, after: String): ActivitiesConnection
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
 }
 
-input CreateSiteInput {
-  name: String
-  domain: String!
+type ActivitiesConnection {
+  cursor: String
+  activities: [Activity]
 }
 
-input CreatePostInput {
-  domain: String!
+type Activity {
+  id: ID!
+  threadId: String!
   title: String!
-  publishDate: AWSDateTime
-  content: String!
+  status: String! 
+  type: String! 
+  color: String! 
+  criticality: String! 
+  assigned(num: Int, after: String): UserConnection
+  conversation(num: Int, after: String): ConversationConnection
+  closedInternallyAt: AWSDateTime
+  closedInternallyBy: String
+  closedClientAt: AWSDateTime
+  closedClientBy: String
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
 }
 
-input CreateCommentInput {
-  postId: String!
-  username: String!
-  publishDate: AWSDateTime
-  content: String!
+type ConversationConnection {
+  cursor: String
+  conversation: Conversation
+}
+
+type Conversation {
+  id: ID!
+  text: String
+  html: String
+  modifiedAt: AWSDateTime
+  modifiedBy: String
+  createdAt: AWSDateTime
+  createdBy: String
 }

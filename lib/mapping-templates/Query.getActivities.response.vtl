@@ -1,0 +1,20 @@
+#if($ctx.results.items.size() == 0)
+    #return
+#end
+
+#set($activities = [])
+#set($conversation = {})
+
+#foreach($item in $ctx.result.items)
+    #if($item["_TYPE"] == "ACTIVITY")
+        $util.qr($activities.add($item))
+    #elseif($item["_TYPE"] == "CONVERSATION")
+        #set ($conversation = $item)
+    #end
+#end
+
+$util.qr(
+    $activities.put("conversation", $conversation)
+)
+
+$util.toJson($activities)

@@ -1,0 +1,13 @@
+#if($ctx.results.items.size() == 0)
+    #return
+#end
+
+#set($users = [])
+
+#foreach($item in $ctx.result.items)
+    #if($item["_TYPE"] == "USER")
+        #set ($users = $item)
+    #end
+#end
+
+$util.toJson($users)

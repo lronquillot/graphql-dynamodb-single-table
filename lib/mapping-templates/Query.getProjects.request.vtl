@@ -1,0 +1,11 @@
+{
+    "version": "2018-05-29",
+    "operation": "Query",
+    "query": {
+        "expression": "PK = :pk",
+        "expressionValues": {
+            ":pk": $util.dynamodb.toDynamoDBJson("AREA#$ctx.args.areaId")
+        }
+    },
+    "scanIndexForward": false
+}

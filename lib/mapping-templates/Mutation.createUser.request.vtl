@@ -1,0 +1,24 @@
+#set($id = $util.autoId())
+
+{
+    "version" : "2018-05-29",
+    "operation" : "PutItem",
+    "key" : {
+        "PK": $util.dynamodb.toDynamoDBJson("USER#${id}"),
+        "SK": $util.dynamodb.toDynamoDBJson("USER#$ctx.args.input.mail"),
+    },
+    "attributeValues" : {
+        "_TYPE": $util.dynamodb.toDynamoDBJson("USER"),
+        "id": $util.dynamodb.toDynamoDBJson(${id}),
+        "name": $util.dynamodb.toDynamoDBJson($ctx.args.input.name),
+        "mail": $util.dynamodb.toDynamoDBJson($ctx.args.input.mail),
+        "father": $util.dynamodb.toDynamoDBJson($ctx.args.input.father),
+        "createdAt": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrEmpty($ctx.args.input.publishDate, $util.time.nowISO8601())),
+        "createdBy": $util.dynamodb.toDynamoDBJson($ctx.args.input.createdBy),
+        "modifiedAt": $util.dynamodb.toDynamoDBJson($ctx.args.input.modifiedAt), 
+        "modifiedBy": $util.dynamodb.toDynamoDBJson($ctx.args.input.modifiedBy),
+    },
+    "condition": {
+        "expression": "attribute_not_exists(PK)"
+    }
+}

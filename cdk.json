@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/single-table-cdk.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/activities-table-cdk.ts",
   "watch": {
     "include": [
       "**"

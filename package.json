@@ -1,8 +1,8 @@
 {
-  "name": "single-table-cdk",
+  "name": "activities-table-cdk",
   "version": "0.1.0",
   "bin": {
-    "single-table-cdk": "bin/single-table-cdk.js"
+    "activities-table-cdk": "bin/activities-table-cdk.js"
   },
   "scripts": {
     "build": "tsc",
