@@ -22,7 +22,7 @@ type Mutation {
 input AreaInput {
   name: String!
   userId: String!
-  father: String
+  fatherId: String
   modifiedAt: AWSDateTime
   modifiedBy: String
   createdAt: AWSDateTime
@@ -80,10 +80,10 @@ input ConversationInput {
 }
 
 type User {
-  id: ID!
-  name: String!
-  mail: String!
-  role: String! 
+  id: ID
+  name: String
+  mail: String
+  role: String 
   passwordUpdated: Boolean
   modifiedAt: AWSDateTime
   modifiedBy: String
@@ -92,8 +92,8 @@ type User {
 }
 
 type Area {
-  id: ID!
-  name: String!
+  id: ID
+  name: String
   inCharge(num: Int, after: String): UserConnection
   father(num: Int, after: String): FatherConnection
   projects(num: Int, after: String): ProjectConnection
@@ -110,7 +110,7 @@ type UserConnection {
 
 type FatherConnection {
   cursor: String
-  father: Area
+  area: Area
 }
 
 type ProjectConnection {
@@ -119,9 +119,9 @@ type ProjectConnection {
 }
 
 type Project {
-  id: ID!
-  name: String!
-  supportMail: String!
+  id: ID
+  name: String
+  supportMail: String
   activities(num: Int, after: String): ActivitiesConnection
   modifiedAt: AWSDateTime
   modifiedBy: String
@@ -135,13 +135,13 @@ type ActivitiesConnection {
 }
 
 type Activity {
-  id: ID!
-  threadId: String!
-  title: String!
-  status: String! 
-  type: String! 
-  color: String! 
-  criticality: String! 
+  id: ID
+  threadId: String
+  title: String
+  status: String
+  type: String
+  color: String 
+  criticality: String
   assigned(num: Int, after: String): UserConnection
   conversation(num: Int, after: String): ConversationConnection
   closedInternallyAt: AWSDateTime
@@ -160,7 +160,7 @@ type ConversationConnection {
 }
 
 type Conversation {
-  id: ID!
+  id: ID
   text: String
   html: String
   modifiedAt: AWSDateTime

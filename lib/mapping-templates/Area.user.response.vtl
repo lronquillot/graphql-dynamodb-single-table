@@ -1,4 +1,17 @@
+#if($ctx.results.items.size() == 0)
+    #return
+#end
+
+#set($user = {})
+
+#foreach($item in $ctx.result.items)
+    #if($item["_TYPE"] == "USER")
+        #set ($user = $item)
+    #end
+#end
+
+
 $util.toJson({
     "cursor": $ctx.result.nextToken,
-    "user": $ctx.result.items
+    "user": $user
 })

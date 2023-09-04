@@ -1,9 +1,16 @@
-
+#set( $tag = "USER" )
 {
-    "version": "2018-05-29",
-    "operation": "Scan",
+    "version" : "2017-02-28",
+    "operation" : "Scan",
     "filter": {
-        "expression" : "begins_with(PK, USER#)",
-    },
-    "scanIndexForward": false
+        "expression": "#tag = :tag",
+        "expressionNames" : {
+            "#tag" : "_TYPE"
+        },
+        "expressionValues" : {
+            ":tag": {
+                "S": "$tag"
+            }
+        }
+    }
 }

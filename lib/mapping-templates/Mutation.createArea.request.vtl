@@ -9,10 +9,10 @@
     },
     "attributeValues" : {
         "_TYPE": $util.dynamodb.toDynamoDBJson("AREA"),
-        "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
+        "id": $util.dynamodb.toDynamoDBJson($id),
         "userId": $util.dynamodb.toDynamoDBJson($ctx.args.input.userId),
         "name": $util.dynamodb.toDynamoDBJson($ctx.args.input.name),
-        "father": $util.dynamodb.toDynamoDBJson($ctx.args.input.father),
+        "fatherId": $util.dynamodb.toDynamoDBJson($ctx.args.input.fatherId),
         "createdAt": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrEmpty($ctx.args.input.publishDate, $util.time.nowISO8601())),
         "createdBy": $util.dynamodb.toDynamoDBJson($ctx.args.input.createdBy),
         "modifiedAt": $util.dynamodb.toDynamoDBJson($ctx.args.input.modifiedAt), 

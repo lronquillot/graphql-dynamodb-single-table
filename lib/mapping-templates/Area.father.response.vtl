@@ -1,4 +1,17 @@
+#if($ctx.results.items.size() == 0)
+    #return
+#end
+
+#set($area = {})
+
+#foreach($item in $ctx.result.items)
+    #if($item["_TYPE"] == "AREA")
+        #set ($area = $item)
+    #end
+#end
+
+
 $util.toJson({
     "cursor": $ctx.result.nextToken,
-    "father": $ctx.result.items
+    "area": $area
 })

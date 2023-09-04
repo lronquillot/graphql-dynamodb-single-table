@@ -5,9 +5,8 @@
 #set($users = [])
 
 #foreach($item in $ctx.result.items)
-    #if($item["_TYPE"] == "USER")
-        #set ($users = $item)
-    #end
+    $util.qr($users.add($item))
 #end
+
 
 $util.toJson($users)

@@ -12,7 +12,7 @@
         "id": $util.dynamodb.toDynamoDBJson(${id}),
         "name": $util.dynamodb.toDynamoDBJson($ctx.args.input.name),
         "mail": $util.dynamodb.toDynamoDBJson($ctx.args.input.mail),
-        "father": $util.dynamodb.toDynamoDBJson($ctx.args.input.father),
+        "role": $util.dynamodb.toDynamoDBJson($ctx.args.input.role),
         "createdAt": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrEmpty($ctx.args.input.publishDate, $util.time.nowISO8601())),
         "createdBy": $util.dynamodb.toDynamoDBJson($ctx.args.input.createdBy),
         "modifiedAt": $util.dynamodb.toDynamoDBJson($ctx.args.input.modifiedAt), 

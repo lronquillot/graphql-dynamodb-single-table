@@ -7,5 +7,5 @@ node_modules
 .cdk.staging
 cdk.out
 
-# MAC
+#Mac
 .DS_Store
