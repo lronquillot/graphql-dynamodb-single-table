@@ -3,18 +3,11 @@
 #end
 
 #set($activities = [])
-#set($conversation = {})
+
 
 #foreach($item in $ctx.result.items)
-    #if($item["_TYPE"] == "ACTIVITY")
-        $util.qr($activities.add($item))
-    #elseif($item["_TYPE"] == "CONVERSATION")
-        #set ($conversation = $item)
-    #end
+    $util.qr($activities.add($item))
 #end
 
-$util.qr(
-    $activities.put("conversation", $conversation)
-)
 
 $util.toJson($activities)

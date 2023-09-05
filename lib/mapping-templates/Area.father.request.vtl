@@ -4,7 +4,7 @@
     "query" : {
         "expression": "PK = :pk",
         "expressionValues" : {
-            ":pk": $util.dynamodb.toDynamoDBJson("AREA#$ctx.source.id"),
+            ":pk": $util.dynamodb.toDynamoDBJson("AREA#$ctx.source.fatherId"),
         }
     },
     "scanIndexForward": false,
