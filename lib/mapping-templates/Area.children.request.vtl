@@ -1,0 +1,15 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "Scan",
+    "filter" : {
+        "expression": "#fatherId = :fatherId",
+        "expressionNames" : {
+            "#fatherId" : "fatherId"
+        },
+        "expressionValues" : {
+            ":fatherId": {
+                "S": "$ctx.source.id"
+            }
+        }
+    }
+}

@@ -142,6 +142,13 @@ export class ActivitiesTableCdkStack extends Stack {
 
     tableDatasource.createResolver({
       typeName: 'Area',
+      fieldName: 'children',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Area.children.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Area.children.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
+      typeName: 'Area',
       fieldName: 'projects',
       requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Area.projects.request.vtl'),
       responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Area.projects.response.vtl'),

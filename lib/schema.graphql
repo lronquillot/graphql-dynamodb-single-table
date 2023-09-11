@@ -32,7 +32,7 @@ input AreaInput {
 input UserInput {
   name: String!
   mail: String!
-  role: String! 
+  role: Role! 
   passwordUpdated: Boolean
   modifiedAt: AWSDateTime
   modifiedBy: String
@@ -54,10 +54,10 @@ input ActivityInput {
   threadId: String!
   projectId: String!
   userId: String
-  status: String! 
-  type: String 
-  color: String 
-  criticality: String
+  status: Status! 
+  type: Type 
+  color: Color 
+  criticality: Criticality
   title: String!
   closedInternallyAt: AWSDateTime
   closedInternallyBy: String
@@ -83,7 +83,7 @@ type User {
   id: ID
   name: String
   mail: String
-  role: String 
+  role: Role 
   passwordUpdated: Boolean
   modifiedAt: AWSDateTime
   modifiedBy: String
@@ -96,6 +96,7 @@ type Area {
   name: String
   inCharge(num: Int, after: String): UserConnection
   father(num: Int, after: String): FatherConnection
+  children(num: Int, after: String): ChildrenConnection
   projects(num: Int, after: String): ProjectConnection
   modifiedAt: AWSDateTime
   modifiedBy: String
@@ -111,6 +112,11 @@ type UserConnection {
 type FatherConnection {
   cursor: String
   area: Area
+}
+
+type ChildrenConnection {
+  cursor: String
+  areas: [Area]
 }
 
 type ProjectConnection {
@@ -138,10 +144,10 @@ type Activity {
   id: ID
   threadId: String
   title: String
-  status: String
-  type: String
-  color: String 
-  criticality: String
+  status: Status
+  type: Type
+  color: Color 
+  criticality: Criticality
   assigned(num: Int, after: String): UserConnection
   conversation(num: Int, after: String): ConversationConnection
   closedInternallyAt: AWSDateTime
@@ -167,4 +173,38 @@ type Conversation {
   modifiedBy: String
   createdAt: AWSDateTime
   createdBy: String
+}
+
+enum Color {
+  RED
+  YELLOW
+  GREEN
+}
+
+enum Criticality {
+  HIGH
+  LOW
+}
+
+enum Status {
+  CLOSED_CLIENT
+  REASSIGNED
+  STARTED
+  REOPENED
+  ASSIGNED
+  CLOSED_INTERNALLY
+  RECEIVED
+  PLANNED
+}
+
+enum Type {
+  INCIDENCE
+  UNASSIGNED
+  DEVELOPMENT
+}
+
+enum Role {
+  CONSULTANT
+  ADMIN
+  USER
 }
