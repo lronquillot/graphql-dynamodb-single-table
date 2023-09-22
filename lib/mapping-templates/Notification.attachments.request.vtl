@@ -1,18 +1,19 @@
-#set( $tag = "ACTIVITY" )
+#set( $tag = "ATTACHMENT" )
+
 {
     "version" : "2018-05-29",
-    "operation" : "Scan",
-    "filter" : {
+    "operation": "Scan",
+    "filter": {
         "expression": "#pk = :pk and #tag = :tag",
-         "expressionNames" : {
+        "expressionNames" : {
             "#pk" : "PK",
             "#tag" : "_TYPE"
         },
-         "expressionValues" : {
+        "expressionValues" : {
             ":tag": {
                 "S": "$tag"
             },
-            ":pk": $util.dynamodb.toDynamoDBJson("PROJECT#$ctx.source.id")
+            ":pk": $util.dynamodb.toDynamoDBJson("NOTIFICATION#$ctx.source.id")
         }
-    },
+    }
 }

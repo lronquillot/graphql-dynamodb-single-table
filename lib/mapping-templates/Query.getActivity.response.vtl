@@ -1,0 +1,13 @@
+#if($ctx.results.items.size() == 0)
+    #return
+#end
+
+#set($activities = [])
+
+
+#foreach($item in $ctx.result.items)
+    $util.qr($activities.add($item))
+#end
+
+
+$util.toJson($activities)

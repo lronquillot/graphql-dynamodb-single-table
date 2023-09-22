@@ -1,8 +1,8 @@
-import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema } from "@aws-cdk/aws-appsync-alpha";
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
+import { CfnApiKey } from 'aws-cdk-lib/aws-appsync';
 import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
-import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema } from "@aws-cdk/aws-appsync-alpha";
-import { CfnApiKey } from 'aws-cdk-lib/aws-appsync';
 
 // CONSTANTES
 export const APP_NAME = 'qas-activities'
@@ -62,26 +62,19 @@ export class ActivitiesTableCdkStack extends Stack {
       requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Mutation.createUser.request.vtl'),
       responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Mutation.createUser.response.vtl'),
     })
-
-    tableDatasource.createResolver({
-      typeName: MUTATION,
-      fieldName: 'createActivity',
-      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Mutation.createActivity.request.vtl'),
-      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Mutation.createActivity.response.vtl'),
-    })
-
-    tableDatasource.createResolver({
-      typeName: MUTATION,
-      fieldName: 'createConversation',
-      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Mutation.createConversation.request.vtl'),
-      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Mutation.createConversation.response.vtl'),
-    })
-
+    
     tableDatasource.createResolver({
       typeName: QUERY,
       fieldName: 'getActivities',
       requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getActivities.request.vtl'),
       responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getActivities.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
+      typeName: QUERY,
+      fieldName: 'getActivity',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getActivity.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getActivity.response.vtl'),
     })
 
     tableDatasource.createResolver({
@@ -127,6 +120,20 @@ export class ActivitiesTableCdkStack extends Stack {
     })
 
     tableDatasource.createResolver({
+      typeName: 'Activity',
+      fieldName: 'notifications',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Activity.notifications.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Activity.notifications.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
+      typeName: 'Activity',
+      fieldName: 'tracking',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Activity.tracking.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Activity.tracking.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
       typeName: 'Area',
       fieldName: 'inCharge',
       requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Area.user.request.vtl'),
@@ -159,6 +166,13 @@ export class ActivitiesTableCdkStack extends Stack {
       fieldName: 'activities',
       requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Projects.activities.request.vtl'),
       responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Projects.activities.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
+      typeName: 'Notification',
+      fieldName: 'attachments',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Notification.attachments.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Notification.attachments.response.vtl'),
     })
 
     const apiKey = new CfnApiKey(this, GRAPHQL_API_KEY, {

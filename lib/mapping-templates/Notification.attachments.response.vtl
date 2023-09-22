@@ -1,0 +1,11 @@
+#if($ctx.results.items.size() == 0)
+    #return
+#end
+
+#set($attachments = [])
+
+#foreach($item in $ctx.result.items)
+    $util.qr($attachments.add($item))
+#end
+
+$util.toJson($attachments)

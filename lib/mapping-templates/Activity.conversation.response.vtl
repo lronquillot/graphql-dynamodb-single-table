@@ -11,7 +11,4 @@
 #end
 
 
-$util.toJson({
-    "cursor": $ctx.result.nextToken,
-    "conversation": $conversation
-})
+$util.toJson($conversation)

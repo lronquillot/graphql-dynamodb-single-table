@@ -7,6 +7,4 @@
             ":pk": $util.dynamodb.toDynamoDBJson("AREA#$ctx.source.fatherId"),
         }
     },
-    "scanIndexForward": false,
-    "nextToken": $util.toJson($util.defaultIfNullOrBlank($ctx.args.after, null))
 }

@@ -1,0 +1,14 @@
+#if($ctx.results.items.size() == 0)
+    #return
+#end
+
+#set($notifications = [])
+
+#foreach($item in $ctx.result.items)
+    #if($item["_TYPE"] == "NOTIFICATION")
+        $util.qr($notifications.add($item))
+    #end
+#end
+
+
+$util.toJson($notifications)

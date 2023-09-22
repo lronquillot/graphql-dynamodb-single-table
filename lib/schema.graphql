@@ -8,24 +8,23 @@ type Query {
   getAreas: [Area]
   getProjects(areaId: String!): [Project]
   getActivities(userId: String!): [Activity]
+  getActivity(activityId: String!): [Activity]
   getConversation(activityId: String!): Conversation
 }
 
 type Mutation {
   createUser(input: UserInput): User
   createArea(input: AreaInput): Area 
-  createProject(input: ProjectInput): Project 
-  createActivity(input: ActivityInput): Activity 
-  createConversation(input: ConversationInput): Conversation 
+  createProject(input: ProjectInput): Project
 }
 
 input AreaInput {
   name: String!
   userId: String!
   fatherId: String
-  modifiedAt: AWSDateTime
+  modifiedAt: String
   modifiedBy: String
-  createdAt: AWSDateTime
+  createdAt: String
   createdBy: String
 }
 
@@ -34,9 +33,9 @@ input UserInput {
   mail: String!
   role: Role! 
   passwordUpdated: Boolean
-  modifiedAt: AWSDateTime
+  modifiedAt: String
   modifiedBy: String
-  createdAt: AWSDateTime
+  createdAt: String
   createdBy: String
 }
 
@@ -44,38 +43,9 @@ input ProjectInput {
   name: String!
   supportMail: String!
   areaId: String!
-  modifiedAt: AWSDateTime
+  modifiedAt: String
   modifiedBy: String
-  createdAt: AWSDateTime
-  createdBy: String
-}
-
-input ActivityInput {
-  threadId: String!
-  projectId: String!
-  userId: String
-  status: Status! 
-  type: Type 
-  color: Color 
-  criticality: Criticality
-  title: String!
-  closedInternallyAt: AWSDateTime
-  closedInternallyBy: String
-  closedClientAt: AWSDateTime
-  closedClientBy: String
-  modifiedAt: AWSDateTime
-  modifiedBy: String
-  createdAt: AWSDateTime
-  createdBy: String
-}
-
-input ConversationInput {
-  activityId: String!
-  text: String
-  html: String!
-  modifiedAt: AWSDateTime
-  modifiedBy: String
-  createdAt: AWSDateTime
+  createdAt: String
   createdBy: String
 }
 
@@ -85,93 +55,115 @@ type User {
   mail: String
   role: Role 
   passwordUpdated: Boolean
-  modifiedAt: AWSDateTime
+  modifiedAt: String
   modifiedBy: String
-  createdAt: AWSDateTime
+  createdAt: String
   createdBy: String
 }
 
 type Area {
   id: ID
+  externalId: String
   name: String
-  inCharge(num: Int, after: String): UserConnection
-  father(num: Int, after: String): FatherConnection
-  children(num: Int, after: String): ChildrenConnection
-  projects(num: Int, after: String): ProjectConnection
-  modifiedAt: AWSDateTime
-  modifiedBy: String
-  createdAt: AWSDateTime
-  createdBy: String
-}
-
-type UserConnection {
-  cursor: String
-  user: User
-}
-
-type FatherConnection {
-  cursor: String
-  area: Area
-}
-
-type ChildrenConnection {
-  cursor: String
-  areas: [Area]
-}
-
-type ProjectConnection {
-  cursor: String
+  inCharge: User
+  father: Area
+  children: [Area]
   projects: [Project]
+  modifiedAt: String
+  modifiedBy: String
+  createdAt: String
+  createdBy: String
 }
 
 type Project {
   id: ID
+  externalId: String
   name: String
-  supportMail: String
-  activities(num: Int, after: String): ActivitiesConnection
-  modifiedAt: AWSDateTime
-  modifiedBy: String
-  createdAt: AWSDateTime
-  createdBy: String
-}
-
-type ActivitiesConnection {
-  cursor: String
+  mail: String
   activities: [Activity]
+  modifiedAt: String
+  modifiedBy: String
+  createdAt: String
+  createdBy: String
 }
 
 type Activity {
   id: ID
+  num: Int
   threadId: String
   title: String
   status: Status
-  type: Type
+  category: Category
   color: Color 
   criticality: Criticality
-  assigned(num: Int, after: String): UserConnection
-  conversation(num: Int, after: String): ConversationConnection
-  closedInternallyAt: AWSDateTime
+  isOpen: Boolean
+  notifications: [Notification]
+  tracking: [Tracking]
+  assigned: User
+  conversation: Conversation
+  closedInternallyAt: String
   closedInternallyBy: String
-  closedClientAt: AWSDateTime
+  closedClientAt: String
   closedClientBy: String
-  modifiedAt: AWSDateTime
+  modifiedAt: String
   modifiedBy: String
-  createdAt: AWSDateTime
+  createdAt: String
   createdBy: String
 }
 
-type ConversationConnection {
-  cursor: String
-  conversation: Conversation
+type Notification {
+  id: ID
+  num: Int
+  historyId: String
+  messageId: String
+  title: String
+  text: String
+  sentBy: String
+  organization: String
+  language: String
+  responseTime: Int
+  owner: Owner
+  nextOwner: Owner
+  isFirstMessage: Boolean
+  cc: [String]
+  bcc: [String]
+  to: [String]
+  attachments: [Attachment]
+  publishDate: String
+  modifiedAt: String
+  modifiedBy: String
+  createdAt: String
+  createdBy: String
+}
+
+type Tracking {
+  id: ID
+  num: Int
+  user: User
+  status: Status
+  modifiedAt: String
+  modifiedBy: String
+  createdAt: String
+  createdBy: String
 }
 
 type Conversation {
   id: ID
   text: String
   html: String
-  modifiedAt: AWSDateTime
+  modifiedAt: String
   modifiedBy: String
-  createdAt: AWSDateTime
+  createdAt: String
+  createdBy: String
+}
+
+type Attachment {
+  id: ID
+  path: String
+  name: String
+  modifiedAt: String
+  modifiedBy: String
+  createdAt: String
   createdBy: String
 }
 
@@ -197,7 +189,7 @@ enum Status {
   PLANNED
 }
 
-enum Type {
+enum Category {
   INCIDENCE
   UNASSIGNED
   DEVELOPMENT
@@ -207,4 +199,9 @@ enum Role {
   CONSULTANT
   ADMIN
   USER
+}
+
+enum Owner {
+  SUPPORT
+  CLIENT
 }

@@ -1,0 +1,18 @@
+#set( $tag = "ACTIVITY" )
+{
+    "version": "2018-05-29",
+    "operation": "Scan",
+    "filter": {
+        "expression": "#id = :id and #tag = :tag",
+        "expressionNames" : {
+            "#id" : "id",
+            "#tag" : "_TYPE"
+        },
+        "expressionValues" : {
+            ":tag": {
+                "S": "$tag"
+            },
+            ":id": $util.dynamodb.toDynamoDBJson($ctx.args.activityId)
+        }
+    }
+}

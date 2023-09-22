@@ -6,7 +6,5 @@
         "expressionValues" : {
             ":pk": $util.dynamodb.toDynamoDBJson("AREA#$ctx.source.id"),
         }
-    },
-    "scanIndexForward": false,
-    "nextToken": $util.toJson($util.defaultIfNullOrBlank($ctx.args.after, null))
+    }
 }
