@@ -4,7 +4,7 @@
     "version" : "2018-05-29",
     "operation" : "PutItem",
     "key" : {
-        "PK": $util.dynamodb.toDynamoDBJson("USER#${id}"),
+        "PK": $util.dynamodb.toDynamoDBJson("USER"),
         "SK": $util.dynamodb.toDynamoDBJson("USER#$ctx.args.input.mail"),
     },
     "attributeValues" : {

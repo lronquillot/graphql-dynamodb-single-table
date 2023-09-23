@@ -8,7 +8,7 @@ type Query {
   getAreas: [Area]
   getProjects(areaId: String!): [Project]
   getActivities(userId: String!): [Activity]
-  getActivity(activityId: String!): [Activity]
+  getActivity(projectId: String!): [Activity]
   getConversation(activityId: String!): Conversation
 }
 

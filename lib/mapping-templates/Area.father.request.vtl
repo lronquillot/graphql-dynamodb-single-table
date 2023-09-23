@@ -1,10 +1,15 @@
+#set( $tag = "AREA" )
+
 {
     "version" : "2018-05-29",
     "operation" : "Query",
     "query" : {
-        "expression": "PK = :pk",
+        "expression": "PK = :pk AND SK = :sk",
         "expressionValues" : {
-            ":pk": $util.dynamodb.toDynamoDBJson("AREA#$ctx.source.fatherId"),
+        	":pk": {
+                "S": "$tag"
+            },
+            ":sk": $util.dynamodb.toDynamoDBJson("AREA#$ctx.source.fatherId")
         }
-    },
+    }
 }

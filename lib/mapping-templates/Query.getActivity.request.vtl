@@ -1,18 +1,23 @@
 #set( $tag = "ACTIVITY" )
+
 {
     "version": "2018-05-29",
-    "operation": "Scan",
-    "filter": {
-        "expression": "#id = :id and #tag = :tag",
+    "operation": "Query",
+    "query": {
+        "expression": "PK = :id",
+        "expressionValues" : {
+            ":id": $util.dynamodb.toDynamoDBJson("PROJECT#$ctx.args.projectId")
+        }
+    },
+    "filter" : {
+        "expression": "#tag = :tag",
         "expressionNames" : {
-            "#id" : "id",
             "#tag" : "_TYPE"
         },
         "expressionValues" : {
             ":tag": {
                 "S": "$tag"
-            },
-            ":id": $util.dynamodb.toDynamoDBJson($ctx.args.activityId)
+            }
         }
     }
 }

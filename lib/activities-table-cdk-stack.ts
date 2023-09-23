@@ -5,7 +5,7 @@ import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
 // CONSTANTES
-export const APP_NAME = 'qas-activities'
+export const APP_NAME = 'activities'
 export const MUTATION = 'Mutation';
 export const QUERY = 'Query';
 

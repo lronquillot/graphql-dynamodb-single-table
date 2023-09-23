@@ -4,7 +4,7 @@
     "version" : "2018-05-29",
     "operation" : "PutItem",
     "key" : {
-        "PK": $util.dynamodb.toDynamoDBJson("AREA#${id}"),
+        "PK": $util.dynamodb.toDynamoDBJson("AREA"),
         "SK": $util.dynamodb.toDynamoDBJson("AREA#${id}"),
     },
     "attributeValues" : {

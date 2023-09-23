@@ -1,6 +1,16 @@
+#set( $tag = "AREA" )
+
 {
     "version" : "2018-05-29",
-    "operation" : "Scan",
+    "operation" : "Query",
+    "query" : {
+        "expression": "PK = :pk",
+        "expressionValues" : {
+        	":pk": {
+                "S": "$tag"
+            }
+        }
+    },
     "filter" : {
         "expression": "#fatherId = :fatherId",
         "expressionNames" : {
