@@ -175,6 +175,13 @@ export class ActivitiesTableCdkStack extends Stack {
       responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Notification.attachments.response.vtl'),
     })
 
+    tableDatasource.createResolver({
+      typeName: 'Tracking',
+      fieldName: 'user',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Tracking.user.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Tracking.user.response.vtl'),
+    })
+
     const apiKey = new CfnApiKey(this, GRAPHQL_API_KEY, {
       apiId: api.apiId
     })

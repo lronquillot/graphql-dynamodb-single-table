@@ -1,0 +1,21 @@
+#set( $tag = "USER" )
+{
+    "version" : "2018-05-29",
+    "operation" : "Query",
+    "query" : {
+        "expression": "PK = :pk",
+        "expressionValues": {
+            ":pk": {
+                "S": "$tag"
+            }
+        }
+    },
+    "filter" : {
+        "expression": "id = :id",
+        "expressionValues" : {
+            ":id": {
+            	"S": "$ctx.source.userId"
+            }
+        }
+    }
+}
