@@ -2,11 +2,11 @@
     #return
 #end
 
-#set($activities = [])
+#set($notifications = [])
 
 #foreach($item in $ctx.result.items)
-    $util.qr($activities.add($item))
+    $util.qr($notifications.add($item))
 #end
 
 
-$util.toJson($activities)
+$util.toJson($notifications)

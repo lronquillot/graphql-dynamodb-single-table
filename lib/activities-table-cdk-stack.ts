@@ -1,11 +1,11 @@
 import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema } from "@aws-cdk/aws-appsync-alpha";
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { CfnApiKey } from 'aws-cdk-lib/aws-appsync';
-import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
+import { AttributeType, BillingMode, ProjectionType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
 // CONSTANTES
-export const APP_NAME = 'activities'
+export const APP_NAME = 'QAS-Activities'
 export const MUTATION = 'Mutation';
 export const QUERY = 'Query';
 
@@ -23,8 +23,35 @@ export class ActivitiesTableCdkStack extends Stack {
     const dynamodbTable = new Table(this, DYNAMO_DB_TABLE, {
       partitionKey: { name: 'PK', type: AttributeType.STRING},
       sortKey: { name: 'SK', type: AttributeType.STRING},
-      billingMode: BillingMode.PAY_PER_REQUEST
-    })
+      billingMode: BillingMode.PAY_PER_REQUEST,
+    });
+
+    dynamodbTable.addGlobalSecondaryIndex({
+      indexName: "_TYPE-index",
+      partitionKey: {
+        name: "_TYPE ",
+        type: AttributeType.STRING,
+      },
+      projectionType: ProjectionType.ALL
+    });
+
+    dynamodbTable.addGlobalSecondaryIndex({
+      indexName: "SK-all-index",
+      partitionKey: {
+        name: "SK ",
+        type: AttributeType.STRING,
+      },
+      projectionType: ProjectionType.ALL
+    });
+
+    dynamodbTable.addGlobalSecondaryIndex({
+      indexName: "SK-index",
+      partitionKey: {
+        name: "SK ",
+        type: AttributeType.STRING,
+      },
+      projectionType: ProjectionType.KEYS_ONLY
+    });
 
     const api = new GraphqlApi(this, 'Api', {
       name: `${APP_NAME}-apis`,
@@ -86,6 +113,13 @@ export class ActivitiesTableCdkStack extends Stack {
 
     tableDatasource.createResolver({
       typeName: QUERY,
+      fieldName: 'getUser',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getUser.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getUser.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
+      typeName: QUERY,
       fieldName: 'getAreas',
       requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getAreas.request.vtl'),
       responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getAreas.response.vtl'),
@@ -96,6 +130,20 @@ export class ActivitiesTableCdkStack extends Stack {
       fieldName: 'getProjects',
       requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getProjects.request.vtl'),
       responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getProjects.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
+      typeName: QUERY,
+      fieldName: 'getTracking',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getTracking.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getTracking.response.vtl'),
+    })
+
+    tableDatasource.createResolver({
+      typeName: QUERY,
+      fieldName: 'getNotifications',
+      requestMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getNotifications.request.vtl'),
+      responseMappingTemplate: MappingTemplate.fromFile('lib/mapping-templates/Query.getNotifications.response.vtl'),
     })
 
     tableDatasource.createResolver({

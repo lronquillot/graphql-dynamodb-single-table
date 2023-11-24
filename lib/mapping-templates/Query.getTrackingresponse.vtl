@@ -2,11 +2,11 @@
     #return
 #end
 
-#set($activities = [])
+#set($tracking = [])
 
 #foreach($item in $ctx.result.items)
-    $util.qr($activities.add($item))
+    $util.qr($tracking.add($item))
 #end
 
 
-$util.toJson($activities)
+$util.toJson($tracking)

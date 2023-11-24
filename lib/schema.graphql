@@ -5,11 +5,14 @@ schema {
 
 type Query {
   getUsers: [User]
+  getUser(mail: String!): User
   getAreas: [Area]
   getProjects(areaId: String!): [Project]
   getActivities(userId: String!): [Activity]
   getActivity(projectId: String!): [Activity]
   getConversation(activityId: String!): Conversation
+  getTracking(activityId: String!): [Tracking]
+  getNotifications(activityId: String!): [Notification]
 }
 
 type Mutation {

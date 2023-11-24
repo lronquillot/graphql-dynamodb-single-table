@@ -1,0 +1,22 @@
+#set( $tag = "USER" )
+{
+    "version": "2018-05-29",
+    "operation": "Query",
+    "query": {
+        "expression": "PK = :pk",
+        "expressionValues" : {
+            ":pk" : {
+                "S" : "$tag"
+            }
+        }
+    },
+    "filter" : {
+        "expression" : "#mail = :mail",
+        "expressionNames" : {
+            "#mail" : "mail"
+        },
+        "expressionValues" : {
+            ":mail" : $util.dynamodb.toDynamoDBJson($ctx.args.mail)
+        }
+    }
+}

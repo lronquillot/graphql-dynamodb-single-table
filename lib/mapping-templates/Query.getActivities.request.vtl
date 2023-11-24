@@ -1,18 +1,26 @@
 #set( $tag = "ACTIVITY" )
 {
-    "version": "2018-05-29",
-    "operation": "Scan",
-    "filter": {
-        "expression": "#user = :userId and #tag = :tag",
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "index" : "_TYPE-index",
+    "query" : {
+        "expression": "#tag = :tag",
         "expressionNames" : {
-            "#user" : "userId",
             "#tag" : "_TYPE"
         },
         "expressionValues" : {
-            ":tag": {
-                "S": "$tag"
-            },
-            ":userId": $util.dynamodb.toDynamoDBJson($ctx.args.userId)
+            ":tag" : {
+                "S" : "$tag"
+            }
+        }
+    },
+    "filter" : {
+        "expression" : "#userId = :userId",
+        "expressionNames" : {
+            "#userId" : "userId"
+        },
+        "expressionValues" : {
+            ":userId" : $util.dynamodb.toDynamoDBJson($ctx.args.userId)
         }
     }
 }
